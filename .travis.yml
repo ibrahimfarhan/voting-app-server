@@ -1,0 +1,18 @@
+branches:
+  only:
+  - master
+language: go
+go:
+  - 1.15.x
+env:
+  - GO111MODULE=on
+go_import_path: github.com/ibrahimfarhan/voting-app/voting-app-server
+services: 
+  - docker
+before_install:
+  - docker build -t ibrahimafarhan/voting-app-server .
+deploy:
+  provider: script
+  script: sh docker-push.sh
+  on:
+    branch: master

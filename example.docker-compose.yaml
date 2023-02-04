@@ -1,0 +1,57 @@
+version: "3.3"
+services:
+  voting-app-server:
+    image: voting-app-server
+    container_name: voting-app-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - ENV=development
+      - DB_TYPE=mongo
+      - DB_CONNECTION_STRING=mongodb://voting-app-database:27017
+      - DB_NAME=voting-app
+      - ALLOWED_ORIGINS=http://localhost:8000
+      - SERVE_STATIC_FILES=false
+      - GOOGLE_OAUTH_CLIENT_ID=yourClientID
+      - GOOGLE_OAUTH_CLIENT_SECRET=yourClientSecret
+      - OAUTH_REDIRECT_URL=http://localhost:8080/api/v1/user/oauth/provider/callback
+    ports:
+      - 8080:8080
+    networks: 
+      - voting-app-network
+
+  voting-app-database:
+    image: mongo
+    container_name: voting-app-database
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - "voting-app-db-volume:/bitnami"
+    ports:
+      - 27019:27017
+    restart: unless-stopped
+    networks: 
+      - voting-app-network
+
+  voting-app-webapp:
+    image: voting-app-webapp
+    build:
+      context: ../voting-app-webapp/
+      dockerfile: Dockerfile
+    container_name: voting-app-webapp
+    environment:
+      - REACT_APP_API_SERVER_URL=http://localhost:8080
+      - REACT_APP_WEBSOCKET_URL=ws://localhost:8080
+    ports:
+      - 8000:80
+
+volumes:
+  voting-app-db-volume:
+    driver: local
+    
+networks: 
+  voting-app-network:
+    driver: bridge

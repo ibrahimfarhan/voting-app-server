@@ -1,0 +1,8 @@
+build
+.dockerignore
+Dockerfile
+.Dockerfile
+docker-compose
+.docker-compose
+.env
+example.env

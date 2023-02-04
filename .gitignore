@@ -1,0 +1,8 @@
+.env
+*.vscode
+client/*
+docker-compose.*
+dev.docker-compose.*
+build
+run.dev.sh
+docker-push.sh
