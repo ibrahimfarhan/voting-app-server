@@ -12,7 +12,7 @@ type User struct {
 	ID         string    `json:"id" bson:"_id"`
 	Username   string    `json:"username" bson:"username"`
 	Name       string    `json:"name" bson:"name"`
-	Email      string    `json:"email" bson:"email"`
+	Email      string    `json:"-" bson:"email"`
 	Password   string    `json:"-" bson:"password"`
 	PictureURL string    `json:"pictureUrl" bson:"pictureUrl"`
 	Teams      []*Team   `json:"teams,omitempty" bson:"-"`
