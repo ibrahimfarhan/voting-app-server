@@ -2,6 +2,10 @@
 A realtime web application to help development teams vote for user story points estimation during sprint planning meetings. Voting options are currently fixed, but in a future release, they will be chosen as a setting for each team.
 
 This repository contains the server-side code. The front-end code is here: https://github.com/ibrahimfarhan/voting-app-webapp. It also contains an example `docker-compose` file to get the stack up and running quickly.
+
+# Live Demo
+https://voting-app-bqaf.onrender.com/
+
 # Running
 The application can run by either:
 ### Installing dependencies on your machine:
