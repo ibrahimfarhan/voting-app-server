@@ -7,6 +7,7 @@ type TeamStore interface {
 	GetPublicNonJoined(userID string) ([]*models.Team, error)
 	GetByIDWithUsers(id string) (*models.Team, error)
 	GetByUserID(userID string, includeUsers bool) ([]*models.Team, error)
+	GetCountByUserID(userID string) (int64, error)
 	AddMemberToTeam(teamID, memberID string) error
 	AddAdminToTeam(team *models.Team, memberID string) error
 	RemoveMemberFromTeam(teamID, memberID string) error

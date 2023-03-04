@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/utils"
 	"github.com/joho/godotenv"
@@ -18,7 +19,7 @@ var (
 		"production",
 	}
 
-	requiredVars = []string{
+	allVars = []string{
 		"PORT",
 		"ENV",
 		"DB_TYPE",
@@ -29,16 +30,21 @@ var (
 		"GOOGLE_OAUTH_CLIENT_ID",
 		"GOOGLE_OAUTH_CLIENT_SECRET",
 		"OAUTH_REDIRECT_URL",
+		"MAX_TEAMS_COUNT_PER_USER",
+		"MAX_USERS_COUNT",
 	}
 
 	defaultVars = map[string]string{
-		"API_VERSION":        "v1",
-		"SERVE_STATIC_FILES": "false",
-		"ENV":                "production",
+		"API_VERSION":              "v1",
+		"SERVE_STATIC_FILES":       "false",
+		"ENV":                      "production",
+		"MAX_TEAMS_COUNT_PER_USER": "2",
+		"MAX_USERS_COUNT":          "100",
 	}
 
 	envVars = getEnvVariables()
-	Env     = struct {
+
+	Env = struct {
 		Port                    string
 		Env                     string
 		DBType                  string
@@ -49,6 +55,8 @@ var (
 		GoogleOAuthClientID     string
 		GoogleOAuthClientSecret string
 		OAuthRedirectURL        string
+		MaxTeamsCountPerUser    int
+		MaxUsersCount           int
 	}{
 		envVars["PORT"],
 		envVars["ENV"],
@@ -60,6 +68,8 @@ var (
 		envVars["GOOGLE_OAUTH_CLIENT_ID"],
 		envVars["GOOGLE_OAUTH_CLIENT_SECRET"],
 		envVars["OAUTH_REDIRECT_URL"],
+		envVarToInt(envVars["MAX_TEAMS_COUNT_PER_USER"]),
+		envVarToInt(envVars["MAX_USERS_COUNT"]),
 	}
 )
 
@@ -71,7 +81,7 @@ func getEnvVariables() map[string]string {
 
 	_ = godotenv.Load(envPath)
 
-	for _, requiredVar := range requiredVars {
+	for _, requiredVar := range allVars {
 		value := os.Getenv(requiredVar)
 
 		if value == "" {
@@ -87,4 +97,13 @@ func getEnvVariables() map[string]string {
 	}
 
 	return vars
+}
+
+func envVarToInt(envVar string) int {
+	num, err := strconv.Atoi(envVar)
+	if err != nil {
+		return 0
+	}
+
+	return num
 }

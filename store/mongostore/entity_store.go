@@ -46,6 +46,28 @@ func (s *entityStore[T]) GetAll(opts ...storeutils.QueryOptions) ([]*T, error) {
 	return entities, nil
 }
 
+func (s *entityStore[T]) Count(opts ...storeutils.QueryOptions) (int64, error) {
+	opt := storeutils.QueryOptions{}
+	if len(opts) > 0 {
+		opt = opts[0]
+	}
+
+	err := opt.ApplyTagFieldNames(*new(T), "bson")
+	if err != nil {
+		return 0, err
+	}
+
+	r, err := s.collection.CountDocuments(
+		context.TODO(),
+		opt.Conditions,
+	)
+	if err != nil {
+		return 0, err
+	}
+
+	return r, nil
+}
+
 func (s *entityStore[T]) GetByID(id string, projection ...storeutils.P) (*T, error) {
 	t := new(T)
 	proj := storeutils.P{}

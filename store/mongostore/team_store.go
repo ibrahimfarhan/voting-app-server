@@ -228,6 +228,26 @@ func (s *TeamStore) GetByUserID(userID string, includeUsers bool) ([]*models.Tea
 	return teams, nil
 }
 
+func (s *TeamStore) GetCountByUserID(userID string) (int64, error) {
+	matchQuery := bson.M{
+		"$or": []bson.M{
+			{
+				"adminIds": userID,
+			},
+			{
+				"memberIds": userID,
+			},
+		},
+	}
+
+	c, err := s.collection.CountDocuments(context.TODO(), matchQuery)
+	if err != nil {
+		return 0, err
+	}
+
+	return c, nil
+}
+
 func (s *TeamStore) AddMemberToTeam(teamID, memberID string) error {
 	update := bson.M{
 		"$push": bson.M{

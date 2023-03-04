@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/ibrahimfarhan/voting-app/voting-app-server/config"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/logger"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/models"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/store/storeutils"
@@ -54,6 +55,17 @@ func createTeam(c *apiContext, w http.ResponseWriter, req *http.Request) {
 	isValid, t := models.ValidateTeamData(reqBody)
 	if !isValid {
 		sendErrorResponse(models.ValidationError, http.StatusBadRequest, w)
+		return
+	}
+
+	teamsCount, err := c.app.TeamStore.GetCountByUserID(c.user.ID)
+	if err != nil {
+		sendErrorResponse(models.SomethingWentWrong, http.StatusInternalServerError, w)
+		return
+	}
+
+	if teamsCount >= int64(config.Env.MaxTeamsCountPerUser) {
+		sendErrorResponse("Maximum number of teams reached", http.StatusBadRequest, w)
 		return
 	}
 

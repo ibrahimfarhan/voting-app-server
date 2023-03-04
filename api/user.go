@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/ibrahimfarhan/voting-app/voting-app-server/config"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/logger"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/models"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/store/storeutils"
@@ -29,6 +30,17 @@ func (api *Api) registerUserRoutes() {
 }
 
 func register(c *apiContext, w http.ResponseWriter, req *http.Request) {
+	usersCount, err := c.app.UserStore.Count()
+	if err != nil {
+		sendErrorResponse(models.SomethingWentWrong, http.StatusInternalServerError, w)
+		return
+	}
+
+	if usersCount >= int64(config.Env.MaxUsersCount) {
+		sendErrorResponse("Maximum number of users reached", http.StatusBadRequest, w)
+		return
+	}
+
 	reqBody, _ := ioutil.ReadAll(req.Body)
 	isValid, registerData := models.ValidateRegisterData(reqBody)
 	if !isValid {
@@ -53,7 +65,7 @@ func register(c *apiContext, w http.ResponseWriter, req *http.Request) {
 	}
 
 	user := new(models.User)
-	err := user.Presave(registerData)
+	err = user.Presave(registerData)
 	if err != nil {
 		logger.Error("register user.Presave", err)
 		sendErrorResponse(models.SomethingWentWrong, http.StatusInternalServerError, w)
