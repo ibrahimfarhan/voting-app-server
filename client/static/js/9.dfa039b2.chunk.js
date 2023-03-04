@@ -1,0 +1,2 @@
+(this["webpackJsonpvoting-app-webapp"]=this["webpackJsonpvoting-app-webapp"]||[]).push([[9],{319:function(t,a,e){"use strict";e.r(a);var n=e(13),c=e(102),o=e(33),p=e(66),i=e(3);a.default=function(){var t=Object(n.h)().token;return Object(c.a)({action:o.i,actionParams:[t],selector:function(t){return t.teams}}).loading?Object(i.jsx)(p.a,{}):Object(i.jsx)(n.a,{to:"/"})}}}]);
+//# sourceMappingURL=9.dfa039b2.chunk.js.map

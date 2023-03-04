@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/utils/not-found.tsx"],"names":["NotFound"],"mappings":"iJAQeA,UARE,WACf,OACE","file":"static/js/10.3f950349.chunk.js","sourcesContent":["const NotFound = () => {\n  return (\n    <div>\n      Not Found\n    </div>\n  )\n}\n\nexport default NotFound;\n"],"sourceRoot":""}

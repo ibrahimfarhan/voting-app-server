@@ -1,6 +1,5 @@
 .env
 *.vscode
-client/*
 docker-compose.*
 dev.docker-compose.*
 build
