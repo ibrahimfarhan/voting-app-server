@@ -198,7 +198,9 @@ func oAuthCallback(c *apiContext, w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	savedUser, err := c.app.UserStore.GetByID(user.ID)
+	savedUser, err := c.app.UserStore.GetOne(storeutils.QueryOptions{
+		Conditions: storeutils.M{"OAuthID": user.ID},
+	})
 	if savedUser == nil && err != nil {
 		user.CreatedAt = time.Now()
 		user.UpdatedAt = time.Now()

@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/config"
 	"github.com/ibrahimfarhan/voting-app/voting-app-server/models"
@@ -32,10 +33,13 @@ var googleOAuth = &oAuthProvider{
 	userApiURL: "https://www.googleapis.com/oauth2/v2/userinfo?access_token=",
 	mapProviderUserToAppUser: func(data map[string]interface{}) *models.User {
 		return &models.User{
-			ID:         data["id"].(string),
+			ID:         utils.NewID(),
+			OAuthID:    data["id"].(string),
 			Name:       data["name"].(string),
 			PictureURL: data["picture"].(string),
 			Email:      data["email"].(string),
+			CreatedAt:  time.Now(),
+			UpdatedAt:  time.Now(),
 		}
 	},
 }

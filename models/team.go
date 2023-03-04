@@ -15,8 +15,8 @@ type Team struct {
 	Name      string    `json:"name" bson:"name"`
 	Admins    []*User   `json:"admins,omitempty" bson:"admins,omitempty"`
 	Members   []*User   `json:"members,omitempty" bson:"members,omitempty"`
-	AdminIDs  []string  `json:"adminIds,omitempty" bson:"adminIds,omitempty"`
-	MemberIDs []string  `json:"memberIds,omitempty" bson:"memberIds,omitempty"`
+	AdminIDs  []string  `json:"-" bson:"adminIds,omitempty"`
+	MemberIDs []string  `json:"-" bson:"memberIds,omitempty"`
 	IsPublic  bool      `json:"isPublic,omitempty" bson:"isPublic,omitempty"`
 	CreatedAt time.Time `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
 	UpdatedAt time.Time `json:"updatedAt,omitempty" bson:"updatedAt"`

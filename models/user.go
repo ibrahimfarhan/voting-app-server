@@ -10,14 +10,15 @@ import (
 
 type User struct {
 	ID         string    `json:"id" bson:"_id"`
+	OAuthID    string    `json:"-" bson:"oauthId"`
 	Username   string    `json:"username" bson:"username"`
 	Name       string    `json:"name" bson:"name"`
 	Email      string    `json:"-" bson:"email"`
 	Password   string    `json:"-" bson:"password"`
 	PictureURL string    `json:"pictureUrl" bson:"pictureUrl"`
 	Teams      []*Team   `json:"teams,omitempty" bson:"-"`
-	CreatedAt  time.Time `json:"createdAt,omitempty" bson:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt,omitempty" bson:"updatedAt"`
+	CreatedAt  time.Time `json:"-" bson:"createdAt"`
+	UpdatedAt  time.Time `json:"-" bson:"updatedAt"`
 }
 
 func (u *User) Presave(r *RegisterData) error {

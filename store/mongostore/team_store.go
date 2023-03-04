@@ -91,6 +91,8 @@ func (s *TeamStore) GetPublicNonJoined(userID string) ([]*models.Team, error) {
 				"admins.updatedAt":  0,
 				"members.email":     0,
 				"admins.email":      0,
+				"memberIds":         0,
+				"adminIds":          0,
 			},
 		},
 	}
@@ -139,6 +141,8 @@ func (s *TeamStore) GetByIDWithUsers(id string) (*models.Team, error) {
 				"members.updatedAt": 0,
 				"admins.createdAt":  0,
 				"admins.updatedAt":  0,
+				"memberIds":         0,
+				"adminIds":          0,
 			},
 		},
 	}
